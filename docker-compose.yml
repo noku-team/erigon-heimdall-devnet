@@ -1,5 +1,8 @@
-# docker-compose.yml
 version: "3"
+
+networks:
+  polygon_network:
+    driver: bridge
 
 services:
   heimdalld:
@@ -7,8 +10,10 @@ services:
     image: 0xpolygon/heimdall:latest
     build: .
     restart: unless-stopped
+    networks:
+      - polygon_network
     volumes:
-      - ./heimdall_data:/data/heimdall
+      - ./heimdalld_data:/data/heimdall
     ports:
       - "26656:26656" # P2P (TCP)
       - "26657:26657" # RPC (TCP)
@@ -22,8 +27,10 @@ services:
     image: 0xpolygon/heimdall:latest
     build: .
     restart: unless-stopped
+    networks:
+      - polygon_network
     volumes:
-      - ./heimdall_data:/heimdall
+      - ./heimdallr_data:/heimdall
     ports:
       - "1317:1317" # Heimdall REST API
     depends_on:
@@ -40,6 +47,8 @@ services:
       context: .
       dockerfile: Dockerfile.erigon
     restart: unless-stopped
+    networks:
+      - polygon_network
     command:
       - --chain=bor-devnet
       - --datadir=/data/erigon
@@ -66,5 +75,6 @@ services:
       start_period: 5s
 
 volumes:
-  heimdall_data:
+  heimdalld_data:
+  heimdallr_data:
   erigon_data:
