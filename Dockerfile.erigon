@@ -1,0 +1,44 @@
+# Dockerfile.erigon
+# Use golang 1.22 as the base image
+FROM golang:1.22-bookworm AS builder
+
+# Install required dependencies
+RUN apt-get update && apt-get install -y \
+	gcc \
+	g++ \
+	make \
+	git \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Clone specific version of erigon
+WORKDIR /build
+RUN git clone --depth 1 --branch v3.0.0-alpha7 https://github.com/erigontech/erigon.git
+
+# Build erigon
+WORKDIR /build/erigon
+RUN make erigon
+
+# Create final lightweight image
+FROM debian:bookworm-slim
+
+# Install required runtime dependencies
+RUN apt-get update && apt-get install -y \
+	ca-certificates \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Copy binary from builder
+COPY --from=builder /build/erigon/build/bin/erigon /usr/local/bin/
+
+# Create erigon user and data directory
+RUN useradd -r -u 1000 -m erigon && \
+	mkdir -p /data/erigon && \
+	chown -R erigon:erigon /data/erigon
+
+USER erigon
+
+VOLUME ["/data/erigon"]
+
+# Expose ports
+EXPOSE 8545 8546 8551 30303 30304 30305 30306 8551 42069 6060 6061 6062
+
+ENTRYPOINT ["erigon"]

@@ -1,0 +1,57 @@
+# This is an example compose file for starting up Heimdall required components
+# to run standalone without Bor for development and testing purposes.
+# Do not use this for production.
+version: "3"
+
+services:
+  heimdalld:
+    container_name: heimdalld
+    image: 0xpolygon/heimdall:latest
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./heimdall_data:/data/heimdall
+    ports:
+      - "26656:26656" # P2P (TCP)
+      - "26657:26657" # RPC (TCP)
+    command:
+      - start
+      - --home=/data/heimdall
+      - --chain=devnet
+
+  heimdallr:
+    container_name: heimdallr
+    image: 0xpolygon/heimdall:latest
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./heimdall_data:/heimdall
+    ports:
+      - "1317:1317" # Heimdall REST API
+    depends_on:
+      - heimdalld
+    command:
+      - rest-server
+      - --home=/data/heimdall
+      - --laddr=tcp://0.0.0.0:1317
+      - --node=tcp://heimdalld:26657
+
+  erigon:
+    build:
+      context: .
+      dockerfile: Dockerfile.erigon
+    command:
+      - --chain=bor-devnet
+      - --datadir=/data/erigon
+      - --http
+      - --http.addr=0.0.0.0
+      - --http.port=8545
+      - --http.api=eth,net,web3,debug,trace,txpool
+      - --bor.heimdall=http://heimdallr:1317
+    ports:
+      - "8545:8545"
+      - "30303:30303"
+    volumes:
+      - ./erigon_data:/data/erigon
+    depends_on:
+      - heimdallr
