@@ -1,6 +1,4 @@
-# This is an example compose file for starting up Heimdall required components
-# to run standalone without Bor for development and testing purposes.
-# Do not use this for production.
+# docker-compose.yml
 version: "3"
 
 services:
@@ -37,9 +35,11 @@ services:
       - --node=tcp://heimdalld:26657
 
   erigon:
+    container_name: erigon
     build:
       context: .
       dockerfile: Dockerfile.erigon
+    restart: unless-stopped
     command:
       - --chain=bor-devnet
       - --datadir=/data/erigon
@@ -49,9 +49,22 @@ services:
       - --http.api=eth,net,web3,debug,trace,txpool
       - --bor.heimdall=http://heimdallr:1317
     ports:
-      - "8545:8545"
-      - "30303:30303"
+      - "8545:8545"     # HTTP RPC
+      - "30303:30303"   # P2P
+      - "30304:30304"   # P2P
+      - "8551:8551"     # Engine API
+      - "42069:42069"   # Snap sync
     volumes:
       - ./erigon_data:/data/erigon
     depends_on:
       - heimdallr
+    healthcheck:
+      test: ["CMD", "erigon", "attach", "--datadir", "/data/erigon", "--exec", "eth.blockNumber"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  heimdall_data:
+  erigon_data:
