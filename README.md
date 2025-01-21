@@ -37,7 +37,7 @@ heimdalld init --chain-id=heimdall-erigon-assertoor --chain=local --home=./heimd
 ```
 
 Copiare il file [genesis.json](./heimdalld_data/config/genesis.json) dalla directory `heimdalld_data/config/` alla directory `heimdalld_data2/config/`.
-Modificare il file [config.toml](./heimdalld_data2/config/config.toml) nella directory `heimdalld_data2/config/` cambiando il valore della chiave `seeds` con l'id (che troviamo a [questo](http://localhost:26657/status?) endpoint) e l'indirizzo ip del nodo principale, es: 
+Modificare il file [config.toml](./heimdalld_data2/config/config.toml) nella directory `heimdalld_data2/config/` cambiando il valore della chiave `seeds` con l'id (che troviamo a [questo](http://localhost:26657/status?) endpoint) e l'indirizzo ip del nodo principale, es:
 
 ```toml
 seeds = "f1b1c1b1d1b1e1b1f1b1g1b1@127.0.0.1:26656"
