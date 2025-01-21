@@ -7,7 +7,7 @@ networks:
 services:
   heimdalld:
     container_name: heimdalld
-    image: 0xpolygon/heimdall:latest
+    image: 0xpolygon/heimdall:1.0.10
     build: .
     restart: unless-stopped
     networks:
@@ -19,18 +19,18 @@ services:
       - "26657:26657" # RPC (TCP)
     command:
       - start
-      - --home=/data/heimdall
-      - --chain=devnet
+      - --home /data/heimdall
+      - --chain=local
 
   heimdallr:
     container_name: heimdallr
-    image: 0xpolygon/heimdall:latest
+    image: 0xpolygon/heimdall:1.0.10
     build: .
     restart: unless-stopped
     networks:
       - polygon_network
     volumes:
-      - ./heimdallr_data:/heimdall
+      - ./heimdalld_data:/data/heimdall  # Cambiato da /heimdall a /data/heimdall per consistenza
     ports:
       - "1317:1317" # Heimdall REST API
     depends_on:
@@ -46,6 +46,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.erigon
+    image: erigon:v3.0.0-alpha7  # Aggiunto il tag dell'immagine
     restart: unless-stopped
     networks:
       - polygon_network
@@ -76,5 +77,4 @@ services:
 
 volumes:
   heimdalld_data:
-  heimdallr_data:
   erigon_data:
