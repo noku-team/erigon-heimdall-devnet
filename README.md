@@ -66,3 +66,9 @@ E lanciamo il rest-server con il seguente comando:
 ```
 
 A questo punto il secondo nodo si connetterà al primo nodo, e sarà possibile vedere i blocchi prodotti dal secondo nodo nel primo nodo, per verificarne la giusta connessione è possibile controllare il log del nodo principale e lo stato della net al seguente endpoint: [http://localhost:26657/net_info](http://localhost:26657/net_info).
+
+## Configurazione erigon
+
+```bash
+./bin/erigon --datadir=./erigon_data/data/erigon --chain=bor-devnet --private.api.addr=localhost:9090 --http.api=eth,erigon,web3,net,debug,trace,txpool,parity,admin --http.corsdomain="*" --bor.heimdall=http://localhost:1317
+```
