@@ -148,7 +148,7 @@ echo "your_secure_password" > password.txt
 #### 2. Importa la chiave privata in Bor usando il comando generato dallo script
 
 ```bash
-./bin/bor/bor --datadir ./erigon_data/datadir_1 account import scripts/out/privatekey.txt
+./bin/bor --datadir ./erigon_data/datadir_1 account import scripts/out/privatekey.txt
 ```
 
 #### 3. Elimina il file privatekey.txt
@@ -160,7 +160,7 @@ rm out/privatekey.txt
 #### 4. Avvia Bor usando il comando completo generato dallo script
 
 ```bash
-./bin/bor/bor \
+./bin/bor \
   --datadir ./erigon_data/datadir_1 \
   --chain ./erigon_data/genesis.json \
   --mine \
