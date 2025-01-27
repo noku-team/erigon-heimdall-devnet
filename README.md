@@ -495,6 +495,14 @@ Configuriamo il file [genesis.json](./erigon_data/genesis.json) con i dati dei/d
 }
 ```
 
+A questo punto importiamo le chiavi private dei validatori heimdall in bor, per farlo eseguiamo il seguente comando:
+
+```bash
+./bin/bor account import -datadir ./erigon_data/datadir_1 scripts/out/privatekey.txt
+```
+
+Creiamo il file con la password della chiave utilizzata e salviamolo in `erigon_data/password.txt`.
+
 Esecuzione di bor sul primo heimdall con il comando:
 
 ```bash
