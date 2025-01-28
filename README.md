@@ -358,6 +358,8 @@ Cambiamo inoltre tutti i valori di `bor_chain_id` con il `chain_id` che sceglier
 
 Il nodo eseguira di default il suo servizio p2p sulla porta 26656, e il servizio rpc sulla porta 26657, per cambiarne le configurazioni modificare il file [config.toml](./heimdalld_data/config/config.toml) nella directory `heimdalld_data/config/`.
 
+Andiamo a modificare il file di configurazione dei parametri heimdall come più ci aggrada, file: [heimdall-config.toml](./heimdalld_data/config/heimdall-config.toml).
+
 Eseguiamo dunque il primo nodo con il seguente comando:
 
 ```bash
