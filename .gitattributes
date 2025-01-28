@@ -1,3 +1,4 @@
 bin/heimdallcli filter=lfs diff=lfs merge=lfs -text
 bin/heimdalld filter=lfs diff=lfs merge=lfs -text
 bin/bor filter=lfs diff=lfs merge=lfs -text
+bin/erigon filter=lfs diff=lfs merge=lfs -text
