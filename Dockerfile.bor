@@ -1,0 +1,44 @@
+# Dockerfile.erigon
+# Use golang 1.22 as the base image
+FROM golang:1.22-bookworm AS builder
+
+# Install required dependencies
+RUN apt-get update && apt-get install -y \
+	gcc \
+	g++ \
+	make \
+	git \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Clone specific version of bor
+WORKDIR /build
+RUN git clone --depth 1 --branch v1.5.4 https://github.com/maticnetwork/bor.git
+
+# Build bor
+WORKDIR /build/bor
+RUN make bor
+
+# Create final lightweight image
+FROM debian:bookworm-slim
+
+# Install required runtime dependencies
+RUN apt-get update && apt-get install -y \
+	ca-certificates \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Copy binary from builder
+COPY --from=builder /build/bor/build/bin/bor /usr/local/bin/
+
+# Create bor user and data directory
+RUN useradd -r -u 1000 -m bor && \
+	mkdir -p /data/bor && \
+	chown -R bor:bor /data/bor
+
+USER bor
+
+VOLUME ["/data/bor"]
+
+# Expose ports
+EXPOSE 3131 8545 30303
+
+ENTRYPOINT ["bor"]
