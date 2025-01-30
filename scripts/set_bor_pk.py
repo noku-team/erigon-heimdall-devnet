@@ -25,22 +25,8 @@ def convert_validator_key(json_file_path):
         
         print("\nFile 'out/privatekey.txt' creato con successo.")
         print("\nPer importare la chiave in Bor, esegui:")
-        print(f"./bin/bor --datadir ./erigon_data/datadir_1 account import scripts/out/privatekey.txt")
+        print(f"./bin/bor --datadir ./erigon_data/bor_datadir_1 account import scripts/out/privatekey.txt")
         print("\nDopo l'importazione, elimina il file out/privatekey.txt")
-        
-        # Crea anche il comando completo per avviare Bor
-        bor_command = f"""./bin/bor \\
-  --datadir ./erigon_data/datadir_1 \\
-  --chain ./erigon_data/genesis.json \\
-  --mine \\
-  --miner.validator "0x{key_data['address'].lower()}" \\
-  --miner.gaslimit "30000000" \\
-  --unlock "0x{key_data['address'].lower()}" \\
-  --password password.txt \\
-  --allow-insecure-unlock"""
-        
-        print("\nComando per avviare Bor:")
-        print(bor_command)
 
     except FileNotFoundError:
         print(f"Errore: File {json_file_path} non trovato")
