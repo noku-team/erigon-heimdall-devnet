@@ -3,6 +3,7 @@ from eth_account.signers.local import LocalAccount
 from web3 import Web3
 import json
 import argparse
+from datetime import datetime, timezone
 
 def create_keystore(private_key: str, password: str) -> None:
     # Rimuovi '0x' se presente
@@ -14,8 +15,15 @@ def create_keystore(private_key: str, password: str) -> None:
     # Crea il keystore
     encrypted = Account.encrypt(private_key, password)
     
-    # Salva il file - usa l'indirizzo direttamente senza conversione
-    keystore_file = f"UTC--{account.address}"
+    # Genera il timestamp nel formato corretto
+    timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H-%M-%S.%f')[:-3] + 'Z'
+    
+    # Rimuovi '0x' dall'indirizzo se presente
+    address = account.address.lower().replace('0x', '')
+    
+    # Crea il nome del file nel formato richiesto
+    keystore_file = f"out/UTC--{timestamp}--{address}"
+    
     with open(keystore_file, 'w') as f:
         json.dump(encrypted, f)
     
