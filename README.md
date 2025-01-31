@@ -50,7 +50,6 @@ Example of a Heimdall genesis file with two validators:
         "tx_fees": "1000000000000000"
       },
       "accounts": [
-        // validatore 1 heimdall
         {
           "address": "0x048d975e40d9d9e8931b9ec38f404b8e36be3218",
           "coins": [
@@ -64,7 +63,6 @@ Example of a Heimdall genesis file with two validators:
           "module_name": "",
           "module_permissions": null
         },
-        // validatore 2 heimdall
         {
           "address": "0xf5e55a3e66d028c59c12185e2e51cdafe2c53baf",
           "coins": [
@@ -96,7 +94,6 @@ Example of a Heimdall genesis file with two validators:
           "end_block": "255",
           "validator_set": {
             "validators": [
-              // validatore 1 heimdall
               {
                 "ID": "1",
                 "startEpoch": "0",
@@ -109,7 +106,6 @@ Example of a Heimdall genesis file with two validators:
                 "jailed": false,
                 "accum": "0"
               },
-              // validatore 2 heimdall
               {
                 "ID": "2",
                 "startEpoch": "0",
@@ -137,7 +133,6 @@ Example of a Heimdall genesis file with two validators:
             }
           },
           "selected_producers": [
-            // validatore 1 heimdall
             {
               "ID": "1",
               "startEpoch": "0",
@@ -150,7 +145,6 @@ Example of a Heimdall genesis file with two validators:
               "jailed": false,
               "accum": "0"
             },
-            // validatore 2 heimdall
             {
               "ID": "2",
               "startEpoch": "0",
@@ -254,7 +248,6 @@ Example of a Heimdall genesis file with two validators:
     },
     "staking": {
       "validators": [
-        // validatore 1 heimdall
         {
           "ID": "1",
           "startEpoch": "0",
@@ -267,7 +260,6 @@ Example of a Heimdall genesis file with two validators:
           "jailed": false,
           "accum": "0"
         },
-        // validatore 2 heimdall
         {
           "ID": "2",
           "startEpoch": "0",
@@ -283,7 +275,6 @@ Example of a Heimdall genesis file with two validators:
       ],
       "current_val_set": {
         "validators": [
-          // validatore 1 heimdall
           {
             "ID": "1",
             "startEpoch": "0",
@@ -296,7 +287,6 @@ Example of a Heimdall genesis file with two validators:
             "jailed": false,
             "accum": "0"
           },
-          // validatore 2 heimdall
           {
             "ID": "2",
             "startEpoch": "0",
@@ -333,12 +323,10 @@ Example of a Heimdall genesis file with two validators:
     "topup": {
       "tx_sequences": null,
       "dividend_accounts": [
-        // validatore 1 heimdall
         {
           "user": "0x048d975e40d9d9e8931b9ec38f404b8e36be3218",
           "feeAmount": "0"
         },
-        // validatore 2 heimdall
         {
           "user": "0xf5e55a3e66d028c59c12185e2e51cdafe2c53baf",
           "feeAmount": "0"
@@ -478,11 +466,9 @@ Configure the [genesis.json](./erigon_data/genesis.json) file with the Heimdall 
    "balance": "0x204fcd4f31349d83b6e00000",
    "code": "0x<data>" // copiare da amoy
   },
-  // validatore 1 heimdall
   "048d975e40d9d9e8931b9ec38f404b8e36be3218": {
    "balance": "0x3635c9adc5dea00000" // 1000 ether
   },
-  // validatore 1 heimdall
   "f5e55a3e66d028c59c12185e2e51cdafe2c53baf": {
    "balance": "0x3635c9adc5dea00000" // 1000 ether
   }
