@@ -456,15 +456,15 @@ Configure the [genesis.json](./erigon_data/genesis.json) file with the Heimdall 
  "alloc": {
   "0000000000000000000000000000000000001000": {
    "balance": "0x0",
-   "code": "0x<data>" // copiare da amoy
+   "code": "0x<data>" // copy from amoy
   },
   "0000000000000000000000000000000000001001": {
    "balance": "0x0",
-   "code": "0x<data>" // copiare da amoy
+   "code": "0x<data>" // copy from amoy
   },
   "0000000000000000000000000000000000001010": {
    "balance": "0x204fcd4f31349d83b6e00000",
-   "code": "0x<data>" // copiare da amoy
+   "code": "0x<data>" // copy from amoy
   },
   "048d975e40d9d9e8931b9ec38f404b8e36be3218": {
    "balance": "0x3635c9adc5dea00000" // 1000 ether
