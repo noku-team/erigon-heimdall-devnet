@@ -14,6 +14,6 @@
 	--http --http.addr "localhost" --http.port "8545" \
 	--http.api "eth,net,web3,txpool,debug,bor" \
 	--http.corsdomain "*" --http.vhosts "*"
-  --password ./erigon_data/password.txt \
+  --password ./erigon_data/password.txt
 
 exit 0
