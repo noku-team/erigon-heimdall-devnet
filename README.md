@@ -404,14 +404,14 @@ Then, launch the REST server with:
 
 At this point, the second node will connect to the first node, and you will be able to see the blocks produced by the second node in the first node. To verify the correct connection, check the main node’s logs and the network status at the following endpoint: [http://localhost:26657/net_info](http://localhost:26657/net_info).
 
-## Genesis Configuration
+## Genesis EL Configuration
 
 Configure the [genesis.json](./erigon_data/genesis.json) file with the Heimdall validator data and the selected `chain_id` values. Here is an example:
 
 ```json
 {
  "config": {
-  "chainId": 2999, // chain_id scelto
+  "chainId": 2999, // chosen chain_id
   "homesteadBlock": 0,
   "eip150Block": 0,
   "eip150Hash": "0x0000000000000000000000000000000000000000000000000000000000000000",
