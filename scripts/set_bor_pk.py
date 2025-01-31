@@ -5,45 +5,45 @@ import sys
 
 def convert_validator_key(json_file_path):
     try:
-        # Leggi il file JSON
+        # Read the JSON file
         with open(json_file_path, 'r') as file:
             key_data = json.load(file)
         
-        # Estrai la chiave privata in base64
+        # Extract the private key in base64
         base64_key = key_data['priv_key']['value']
         
-        # Decodifica da base64 e converti in hex
+        # Decode from base64 and convert to hex
         decoded = base64.b64decode(base64_key)
         hex_key = binascii.hexlify(decoded).decode('utf-8')
         
-        print(f"Indirizzo validatore: {key_data['address']}")
-        print(f"Chiave privata (hex): {hex_key}")
+        print(f"Validator address: {key_data['address']}")
+        print(f"Private key (hex): {hex_key}")
         
-        # Crea il file per l'importazione in Bor
+        # Create the file for Bor key import
         with open('out/privatekey.txt', 'w') as f:
             f.write(hex_key)
         
-        print("\nFile 'out/privatekey.txt' creato con successo.")
-        print("\nPer importare la chiave in Bor, esegui:")
+        print("\nFile 'out/privatekey.txt' successfully created.")
+        print("\nTo import the key into Bor, run:")
         print(f"./bin/bor --datadir ./erigon_data/bor_datadir_1 account import scripts/out/privatekey.txt")
-        print("\nDopo l'importazione, elimina il file out/privatekey.txt")
+        print("\nAfter the import, delete the file 'out/privatekey.txt'.")
 
     except FileNotFoundError:
-        print(f"Errore: File {json_file_path} non trovato")
+        print(f"Error: File {json_file_path} not found")
         sys.exit(1)
     except json.JSONDecodeError:
-        print(f"Errore: Il file {json_file_path} non è un JSON valido")
+        print(f"Error: The file {json_file_path} is not a valid JSON")
         sys.exit(1)
     except KeyError as e:
-        print(f"Errore: Chiave {e} non trovata nel JSON")
+        print(f"Error: Key {e} not found in JSON")
         sys.exit(1)
     except Exception as e:
-        print(f"Errore: {str(e)}")
+        print(f"Error: {str(e)}")
         sys.exit(1)
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Uso: python script.py path/to/priv_validator_key.json")
+        print("Usage: python script.py path/to/priv_validator_key.json")
         sys.exit(1)
     
     convert_validator_key(sys.argv[1])

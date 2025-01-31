@@ -6,33 +6,33 @@ import argparse
 from datetime import datetime, timezone
 
 def create_keystore(private_key: str, password: str) -> None:
-    # Rimuovi '0x' se presente
+    # Remove '0x' if present
     private_key = private_key.replace('0x', '')
     
-    # Crea l'account
+    # Create the account
     account: LocalAccount = Account.from_key(private_key)
     
-    # Crea il keystore
+    # Generate the keystore
     encrypted = Account.encrypt(private_key, password)
     
-    # Genera il timestamp nel formato corretto
+    # Generate timestamp in the correct format
     timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H-%M-%S.%f')[:-3] + 'Z'
     
-    # Rimuovi '0x' dall'indirizzo se presente
+    # Remove '0x' from the address if present
     address = account.address.lower().replace('0x', '')
     
-    # Crea il nome del file nel formato richiesto
+    # Create the filename in the required format
     keystore_file = f"out/UTC--{timestamp}--{address}"
     
     with open(keystore_file, 'w') as f:
         json.dump(encrypted, f)
     
-    print(f"Keystore creato: {keystore_file}")
+    print(f"Keystore created: {keystore_file}")
 
 def main():
-    parser = argparse.ArgumentParser(description='Crea un keystore Ethereum da private key')
-    parser.add_argument('--private-key', '-k', required=True, help='Private key Ethereum')
-    parser.add_argument('--password', '-p', required=False, help='Password per crittografare il keystore')
+    parser = argparse.ArgumentParser(description='Create an Ethereum keystore from a private key')
+    parser.add_argument('--private-key', '-k', required=True, help='Ethereum private key')
+    parser.add_argument('--password', '-p', required=False, help='Password to encrypt the keystore')
     
     args = parser.parse_args()
     create_keystore(args.private_key, args.password or '')

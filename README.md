@@ -542,3 +542,9 @@ Run Bor on the first Heimdall node using the command:
   --http.corsdomain "*" --http.vhosts "*"
   --password ./erigon_data/password.txt
 ```
+
+
+## Commands
+
+Saved some commands for startup the nodes, you can find them in the [scripts](./commands) directory.
+

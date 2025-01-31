@@ -1,3 +1,5 @@
+# !NOTE: This is a sample docker-compose file for running Heimdall, Heimdallr and Erigon together. not working yet.
+
 version: "3"
 
 networks:
@@ -30,7 +32,7 @@ services:
     networks:
       - polygon_network
     volumes:
-      - ./heimdalld_data:/data/heimdall  # Cambiato da /heimdall a /data/heimdall per consistenza
+      - ./heimdalld_data:/data/heimdall 
     ports:
       - "1317:1317" # Heimdall REST API
     depends_on:
@@ -46,7 +48,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.erigon
-    image: erigon:v3.0.0-alpha7  # Aggiunto il tag dell'immagine
+    image: erigon:v3.0.0-alpha7
     restart: unless-stopped
     networks:
       - polygon_network
