@@ -414,13 +414,7 @@ E lanciamo il rest-server con il seguente comando:
 
 A questo punto il secondo nodo si connetterà al primo nodo, e sarà possibile vedere i blocchi prodotti dal secondo nodo nel primo nodo, per verificarne la giusta connessione è possibile controllare il log del nodo principale e lo stato della net al seguente endpoint: [http://localhost:26657/net_info](http://localhost:26657/net_info).
 
-## Configurazione erigon
-
-```bash
-./bin/erigon --datadir=./erigon_data/data/erigon --chain=bor-devnet --private.api.addr=localhost:9090 --http.api=eth,erigon,web3,net,debug,trace,txpool,parity,admin --http.corsdomain="*" --bor.heimdall=http://localhost:1317
-```
-
-## Configurazione bor
+## Configurazione genesis
 
 Configuriamo il file [genesis.json](./erigon_data/genesis.json) con i dati dei/del validatori/e heimdall e con i chain_id scelti. Ecco qui un esempio:
 
@@ -497,10 +491,32 @@ Configuriamo il file [genesis.json](./erigon_data/genesis.json) con i dati dei/d
 }
 ```
 
-A questo punto importiamo le chiavi private dei validatori heimdall in bor, per farlo eseguiamo il seguente comando:
+## Configurazione erigon
+
+Innanzitutto creiamo la chain locale con il seguente comando:
 
 ```bash
-./bin/bor account import -datadir ./erigon_data/datadir_1 scripts/out/privatekey.txt
+./bin/erigon --chain=bor-devnet init --datadir ./erigon_data/datadir_1 ./erigon_data/genesis.json
+```
+
+Set the same account of heimdall validator in erigon than run erigon with the following command:
+
+```bash
+./bin/erigon --datadir ./erigon_data/datadir_1 \
+ --chain=bor-devnet --networkid=2999 \
+ --http --private.api.addr=localhost:9090 \
+ --http.api=eth,erigon,web3,net,debug,trace,txpool,parity,admin \
+ --http.corsdomain="*" --bor.heimdall=http://localhost:1317 \
+ --mine --miner.etherbase=0x048d975e40d9d9e8931b9ec38f404b8e36be3218 \
+ --torrent.port 42069
+```
+
+## Configurazione bor
+
+Importiamo le chiavi private dei validatori heimdall in bor, per farlo eseguiamo il seguente comando:
+
+```bash
+./bin/bor account import -datadir ./erigon_data/bor_datadir_1 scripts/out/privatekey.txt
 ```
 
 Creiamo il file con la password della chiave utilizzata e salviamolo in `erigon_data/password.txt`.
@@ -508,14 +524,19 @@ Creiamo il file con la password della chiave utilizzata e salviamolo in `erigon_
 Esecuzione di bor sul primo heimdall con il comando:
 
 ```bash
-./bin/bor server -chain ./erigon_data/genesis.json --mine \
-  --datadir ./erigon_data/datadir_1 \
-  --miner.gaslimit "30000000" \
+./bin/bor server -chain ./erigon_data/genesis.json \
+  --datadir ./erigon_data/bor_datadir_1 \
+  --bor.heimdall=http://localhost:1317 \
+  --mine \
   --miner.etherbase="0x048d975e40d9d9e8931b9ec38f404b8e36be3218" \
-  --unlock "0x048d975e40d9d9e8931b9ec38f404b8e36be3218" \
   --allow-insecure-unlock \
   --bor.withoutheimdall=false \
-  --bor.heimdall "http://localhost:1317" \
-  --bor.heimdallgRPC "tcp://localhost:6060" \
+  --bor.heimdallgRPC "localhost:3132" \
+  --port 30303 \
+  --grpc.addr :3131 \
+  --bor.logs true \
+  --http --http.addr "localhost" --http.port "8545" \
+  --http.api "eth,net,web3,txpool,debug,bor" \
+  --http.corsdomain "*" --http.vhosts "*"
   --password ./erigon_data/password.txt
 ```
